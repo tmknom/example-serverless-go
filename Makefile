@@ -31,7 +31,7 @@ deps: ## Install dependencies
 	go mod tidy
 
 build: clean deps ## Build the application
-	env GOOS=linux go build -ldflags="-s -w" -o bin/example main.go
+	env GOOS=linux go build -ldflags="-s -w" -o bin/handler main.go
 
 clean: ## Clean the binary
 	rm -rf ./bin
