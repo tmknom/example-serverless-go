@@ -26,6 +26,12 @@ MAKEFLAGS += --no-builtin-rules
 # https://gist.github.com/tadashi-aikawa/da73d277a3c1ec6767ed48d1335900f3
 .PHONY: $(shell egrep -oh ^[a-zA-Z0-9][a-zA-Z0-9_-]+: $(MAKEFILE_LIST) | sed 's/://')
 
+# The name defined in the "functions" section of serverless.yml
+FUNCTION_NAME := golang
+
+# The path defined in the "handler" section of serverless.yml
+HANDLER_PATH := bin/handler
+
 clean: ## Clean the binary
 	rm -rf ./bin
 
@@ -34,7 +40,7 @@ deps: ## Install dependencies
 	go mod tidy
 
 build: clean deps ## Build the application
-	env GOOS=linux go build -ldflags="-s -w" -o bin/handler main.go
+	env GOOS=linux go build -ldflags="-s -w" -o $(HANDLER_PATH) main.go
 
 deploy: build ## Deploy a Serverless service
 	sls deploy -v
@@ -46,13 +52,13 @@ generate-event: ## Generate event
 	@sls generate-event -t aws:cloudWatch
 
 invoke-local: ## Invoke function locally
-	@$(MAKE) generate-event | sls invoke local -f golang -l
+	@$(MAKE) generate-event | sls invoke local -f $(FUNCTION_NAME) -l
 
 invoke-remote: ## Invoke function remotely
-	@$(MAKE) generate-event | sls invoke -f golang -l
+	@$(MAKE) generate-event | sls invoke -f $(FUNCTION_NAME) -l
 
 logs: ## Output the logs of a deployed function
-	sls logs -f golang
+	sls logs -f $(FUNCTION_NAME)
 
 info: ## Display information about the service
 	sls info
