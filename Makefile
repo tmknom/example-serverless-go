@@ -42,5 +42,14 @@ deploy: build ## Deploy a Serverless service
 remove: clean ## Remove Serverless service and all resources
 	sls remove -v
 
+generate-event: ## Generate event
+	@sls generate-event -t aws:cloudWatch
+
+invoke-local: ## Invoke function locally
+	@$(MAKE) generate-event | sls invoke local -f golang -l
+
+invoke-remote: ## Invoke function remotely
+	@$(MAKE) generate-event | sls invoke -f golang -l
+
 help: ## Show help
 	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
