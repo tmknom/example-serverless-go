@@ -33,7 +33,7 @@ FUNCTION_NAME := golang
 HANDLER_PATH := bin/handler
 
 clean: ## Clean the binary
-	rm -rf ./bin
+	rm -rf bin
 
 deps: ## Install dependencies
 	go mod download
