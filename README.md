@@ -53,3 +53,7 @@ invoke-remote                  Invoke function remotely
 logs                           Output the logs of a deployed function
 remove                         Remove Serverless service and all resources
 ```
+
+## License
+
+Apache 2 Licensed. See LICENSE for full details.
