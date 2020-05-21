@@ -26,15 +26,15 @@ MAKEFLAGS += --no-builtin-rules
 # https://gist.github.com/tadashi-aikawa/da73d277a3c1ec6767ed48d1335900f3
 .PHONY: $(shell egrep -oh ^[a-zA-Z0-9][a-zA-Z0-9_-]+: $(MAKEFILE_LIST) | sed 's/://')
 
+clean: ## Clean the binary
+	rm -rf ./bin
+
 deps: ## Install dependencies
 	go mod download
 	go mod tidy
 
 build: clean deps ## Build the application
 	env GOOS=linux go build -ldflags="-s -w" -o bin/handler main.go
-
-clean: ## Clean the binary
-	rm -rf ./bin
 
 deploy: build ## Deploy a Serverless service
 	sls deploy -v
