@@ -42,7 +42,7 @@ deps: ## Install dependencies
 build: clean deps ## Build the application
 	env GOOS=linux go build -ldflags="-s -w" -o $(HANDLER_PATH) main.go
 
-vet:
+govet:
 	go vet ./...
 
 deploy: build ## Deploy a Serverless service
