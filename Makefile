@@ -39,6 +39,9 @@ deps: ## Install dependencies
 	go mod download
 	go mod tidy
 
+deps-tools: ## Install tools
+	cat tools.go | grep _ | awk -F'"' '{print $$2}' | xargs -tI{} go install {}
+
 build: clean deps ## Build the application
 	env GOOS=linux go build -ldflags="-s -w" -o $(HANDLER_PATH) main.go
 
